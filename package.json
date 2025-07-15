@@ -1,0 +1,128 @@
+{
+  "name": "modl-shared-web",
+  "version": "1.0.0",
+  "description": "Shared schemas and types for the modl ecosystem.",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./components/ui/*": {
+      "import": {
+        "types": "./dist/components/ui/*.d.ts",
+        "default": "./dist/esm/components/ui/*.js"
+      },
+      "require": {
+        "types": "./dist/components/ui/*.d.ts",
+        "default": "./dist/components/ui/*.js"
+      }
+    },
+    "./hooks/*": {
+      "import": {
+        "types": "./dist/hooks/*.d.ts",
+        "default": "./dist/esm/hooks/*.js"
+      },
+      "require": {
+        "types": "./dist/hooks/*.d.ts",
+        "default": "./dist/hooks/*.js"
+      }
+    },
+    "./lib/*": {
+      "import": {
+        "types": "./dist/lib/*.d.ts",
+        "default": "./dist/esm/lib/*.js"
+      },
+      "require": {
+        "types": "./dist/lib/*.d.ts",
+        "default": "./dist/lib/*.js"
+      }
+    },
+    "./schemas/*": {
+      "import": {
+        "types": "./dist/schemas/*.d.ts",
+        "default": "./dist/esm/schemas/*.js"
+      },
+      "require": {
+        "types": "./dist/schemas/*.d.ts",
+        "default": "./dist/schemas/*.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist && npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc -p tsconfig.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "modl",
+    "shared"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.3.0",
+    "slugify": "^1.6.6",
+    "zod": "^3.23.8",
+    "mongoose": "^8.4.1",
+    "express-session": "^1.18.1",
+    "react-hook-form": "^7.55.0",
+    "react-resizable-panels": "^2.1.9",
+    "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
+    "@radix-ui/react-aspect-ratio": "^1.1.0",
+    "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-collapsible": "^1.1.0",
+    "@radix-ui/react-context-menu": "^2.2.1",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-hover-card": "^1.1.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-menubar": "^1.1.1",
+    "@radix-ui/react-navigation-menu": "^1.2.0",
+    "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-radio-group": "^1.2.0",
+    "@radix-ui/react-scroll-area": "^1.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slider": "^1.2.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
+    "@radix-ui/react-toggle": "^1.1.0",
+    "@radix-ui/react-toggle-group": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
+    "class-variance-authority": "^0.7.0",
+    "cmdk": "^1.0.0",
+    "embla-carousel-react": "^8.1.5",
+    "input-otp": "^1.2.5",
+    "lucide-react": "^0.395.0",
+    "react-day-picker": "^8.10.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "recharts": "^2.12.7",
+    "vaul": "^0.9.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@types/react": "^18.3.3",
+    "@types/express-session": "^1.18.2"
+  }
+}
