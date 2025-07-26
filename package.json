@@ -1,5 +1,5 @@
 {
-  "name": "modl-shared-web",
+  "name": "@modl-gg/shared-web",
   "version": "1.0.0",
   "description": "Shared schemas and types for the modl ecosystem.",
   "main": "dist/index.js",
@@ -63,12 +63,20 @@
     "build:esm": "tsc -p tsconfig.esm.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modl-gg/shared-web.git"
+  },
+  "homepage": "https://github.com/modl-gg/shared-web",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "modl",
     "shared"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "modl-gg",
+  "license": "AGPL-3.0-only",
   "dependencies": {
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.3.0",
