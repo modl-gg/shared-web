@@ -1,6 +1,6 @@
 {
   "name": "@modl-gg/shared-web",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shared schemas and types for the modl ecosystem.",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
