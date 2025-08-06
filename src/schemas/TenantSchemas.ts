@@ -153,7 +153,8 @@ export const ReplySchema = new Schema({
   created: { type: Date, default: Date.now },
   staff: { type: Boolean, default: false },
   action: { type: String },
-  attachments: [{ type: mongoose.Schema.Types.Mixed }]
+  attachments: [{ type: mongoose.Schema.Types.Mixed }],
+  creatorIdentifier: { type: String } // Browser/device identifier for creator verification
 });
 
 export const TicketSchema = new Schema({
