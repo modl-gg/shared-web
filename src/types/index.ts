@@ -165,6 +165,7 @@ export interface IReply {
   avatar?: string;
   action?: string;
   attachments?: any[];
+  creatorIdentifier?: string; // Browser/device identifier for creator verification
 }
 
 export interface ITicket extends Document {
