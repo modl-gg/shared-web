@@ -82,7 +82,7 @@ export const PlayerSchema = new Schema({
 export const StaffSchema = new Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
-  role: { type: String, required: true, enum: ['Super Admin', 'Admin', 'Moderator', 'Helper'] },
+  role: { type: String, required: true }, // Removed enum to allow custom roles - validation handled in application logic
   assignedMinecraftUuid: { type: String, sparse: true, index: true },
   assignedMinecraftUsername: { type: String, sparse: true },
   
@@ -132,7 +132,7 @@ export const StaffSchema = new Schema({
 
 export const InvitationSchema = new Schema({
   email: { type: String, required: true, unique: true },
-  role: { type: String, required: true, enum: ['Admin', 'Moderator', 'Helper'] },
+  role: { type: String, required: true }, // Removed enum to allow custom roles - validation handled in application logic
   token: { type: String, required: true, unique: true },
   expiresAt: { type: Date, required: true },
   status: { type: String, enum: ['pending', 'accepted'], default: 'pending' },
