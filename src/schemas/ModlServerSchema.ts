@@ -33,6 +33,9 @@ export interface IModlServer extends Document {
   usage_billing_enabled?: boolean; // Whether to charge for overages
   usage_billing_updated_at?: Date;
 
+  // Migration Settings
+  migrationFileSizeLimit?: number; // Custom migration file size limit in bytes (optional, defaults to 5GB)
+
   // Custom Domain
   customDomain_override?: string;
   customDomain_status?: 'pending' | 'active' | 'error' | 'verifying';
@@ -77,6 +80,9 @@ export const ModlServerSchema = new Schema<IModlServer>({
   ai_requests_current_period: { type: Number, default: 0 },
   usage_billing_enabled: { type: Boolean, default: false },
   usage_billing_updated_at: { type: Date, sparse: true },
+  
+  // Migration Settings
+  migrationFileSizeLimit: { type: Number, sparse: true },
   
   customDomain_override: { type: String, unique: true, sparse: true },
   customDomain_status: { type: String, enum: ['pending', 'active', 'error', 'verifying'], sparse: true },
