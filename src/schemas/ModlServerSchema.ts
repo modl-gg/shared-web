@@ -108,4 +108,7 @@ ModlServerSchema.index({ plan: 1, subscription_status: 1 });
 ModlServerSchema.index({ provisioningStatus: 1, emailVerified: 1 });
 ModlServerSchema.index({ serverName: 'text', customDomain: 'text', adminEmail: 'text' });
 
-export const ModlServerModel = mongoose.models.ModlServer || model<IModlServer>('ModlServer', ModlServerSchema); 
+// Only create the model on server-side (Node.js environment)
+export const ModlServerModel = typeof window === 'undefined' && mongoose?.models
+  ? (mongoose.models.ModlServer || model<IModlServer>('ModlServer', ModlServerSchema))
+  : null; 

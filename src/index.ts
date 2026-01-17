@@ -1,13 +1,9 @@
-// Export all schemas from the schemas directory
-export * from './schemas/ModlServerSchema';
-export * from './schemas/TenantSchemas';
-export * from './schemas/AdminUserSchema';
-export * from './schemas/EmailCodeSchema';
-export * from './schemas/SystemConfigSchema';
-export * from './schemas/SystemLogSchema';
-export * from './schemas/RegistrationSchema';
-export * from './schemas/AuditLogSchema';
-export * from './schemas/SecurityEventSchema';
+// NOTE: Mongoose schemas are NOT exported from the main index
+// to keep this package browser-compatible.
+// Server-only code should import from '@modl-gg/shared-web/schemas/*' directly.
+
+// Export constants
+export * from './constants';
 
 // Export all types from the types directory
 export * from './types'; 

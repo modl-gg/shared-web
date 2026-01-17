@@ -1,5 +1,6 @@
-import { Types, Connection } from 'mongoose';
-import { IModlServer } from '../schemas/ModlServerSchema';
+// NOTE: This file should NOT import mongoose or schema files
+// to keep the package browser-compatible.
+// The IModlServer interface is duplicated here for type safety.
 
 // Base API Response
 export interface ApiResponse<T = any> {
@@ -58,6 +59,35 @@ declare module 'express-session' {
   }
 }
 
+// IModlServer interface (simplified for browser-compatible type exports)
+// Full definition with Document extension is in schemas/ModlServerSchema.ts
+export interface IModlServer {
+  _id: any;
+  serverName: string;
+  customDomain: string;
+  databaseName?: string;
+  adminEmail: string;
+  emailVerified: boolean;
+  provisioningStatus: 'pending' | 'in-progress' | 'completed' | 'failed';
+  plan: 'free' | 'premium';
+  subscription_status: 'active' | 'canceled' | 'past_due' | 'inactive' | 'trialing' | 'incomplete' | 'incomplete_expired' | 'unpaid' | 'paused';
+  current_period_start?: Date;
+  current_period_end?: Date;
+  stripe_customer_id?: string;
+  stripe_subscription_id?: string;
+  cdn_usage_current_period?: number;
+  ai_requests_current_period?: number;
+  usage_billing_enabled?: boolean;
+  customDomain_override?: string;
+  customDomain_status?: 'pending' | 'active' | 'error' | 'verifying';
+  userCount: number;
+  ticketCount: number;
+  region?: string;
+  lastActivityAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 declare global {
   namespace Express {
     interface Request {
@@ -68,7 +98,7 @@ declare global {
         username: string;
         role: 'Super Admin' | 'Admin' | 'Moderator' | 'Helper';
       },
-      serverDbConnection?: Connection;
+      serverDbConnection?: any; // Was Connection from mongoose
       serverName?: string;
       modlServer?: IModlServer;
     }
