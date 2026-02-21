@@ -35,16 +35,16 @@ export interface Invitation {
   role: 'Admin' | 'Moderator' | 'Helper';
   token: string;
   expiresAt: Date;
-  status: 'pending' | 'accepted';
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 // Authentication & Session
 export interface EmailCode {
   email: string;
-  code: string;
+  codeHash: string;
+  failedAttempts: number;
   expiresAt: Date;
-  used: boolean;
-  createdAt: Date;
 }
 
 // @ts-ignore
@@ -68,18 +68,22 @@ export interface IModlServer {
   databaseName?: string;
   adminEmail: string;
   emailVerified: boolean;
-  provisioningStatus: 'pending' | 'in-progress' | 'completed' | 'failed';
-  plan: 'free' | 'premium';
-  subscription_status: 'active' | 'canceled' | 'past_due' | 'inactive' | 'trialing' | 'incomplete' | 'incomplete_expired' | 'unpaid' | 'paused';
-  current_period_start?: Date;
-  current_period_end?: Date;
-  stripe_customer_id?: string;
-  stripe_subscription_id?: string;
-  cdn_usage_current_period?: number;
-  ai_requests_current_period?: number;
-  usage_billing_enabled?: boolean;
-  customDomain_override?: string;
-  customDomain_status?: 'pending' | 'active' | 'error' | 'verifying';
+  provisioningStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
+  plan: 'FREE' | 'PREMIUM';
+  subscriptionStatus?: 'ACTIVE' | 'CANCELED' | 'PAST_DUE' | 'INACTIVE' | 'TRIALING' | 'INCOMPLETE' | 'INCOMPLETE_EXPIRED' | 'UNPAID' | 'PAUSED';
+  currentPeriodStart?: Date;
+  currentPeriodEnd?: Date;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  cdnUsageCurrentPeriod?: number;
+  aiRequestsCurrentPeriod?: number;
+  usageBillingEnabled?: boolean;
+  usageBillingUpdatedAt?: Date;
+  customDomainOverride?: string;
+  customDomainStatus?: 'PENDING' | 'ACTIVE' | 'ERROR' | 'VERIFYING';
+  customDomainLastChecked?: Date;
+  customDomainError?: string;
+  customDomainCloudflareId?: string;
   userCount: number;
   ticketCount: number;
   region?: string;
@@ -206,8 +210,8 @@ export interface ITicket extends Document {
   subject: string;
   created: Date;
   updatedAt: Date;
-  creator: string;
-  creatorUuid: string;
+  creatorName: string;
+  creatorUuid?: string;
   reportedPlayer?: string;
   reportedPlayerUuid?: string;
   chatMessages?: string[];
@@ -233,15 +237,15 @@ export interface KnowledgebaseArticleStub {
   title: string;
   slug: string;
   ordinal: number;
-  is_visible: boolean;
+  isVisible: boolean;
   categoryId: string;
 }
 
 export interface KnowledgebaseArticle extends KnowledgebaseArticleStub {
   content: string;
   category: { id: string; name: string; slug: string; };
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Homepage Cards
@@ -250,13 +254,13 @@ export interface HomepageCard {
   title: string;
   description: string;
   icon: string;
-  icon_color?: string;
-  action_type: 'url' | 'category_dropdown';
-  action_url?: string;
-  action_button_text?: string;
-  category_id?: string;
-  background_color?: string;
-  is_enabled: boolean;
+  iconColor?: string;
+  actionType: 'url' | 'category_dropdown';
+  actionUrl?: string;
+  actionButtonText?: string;
+  categoryId?: string;
+  backgroundColor?: string;
+  isEnabled: boolean;
   ordinal: number;
   category?: KnowledgebaseCategory;
 }

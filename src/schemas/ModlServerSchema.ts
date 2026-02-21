@@ -14,34 +14,34 @@ export interface IModlServer extends Document {
   emailVerificationToken?: string;
 
   // Provisioning & Status
-  provisioningStatus: 'pending' | 'in-progress' | 'completed' | 'failed';
+  provisioningStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
   provisioningNotes?: string;
   provisioningSignInToken?: string;
   provisioningSignInTokenExpiresAt?: Date;
 
   // Plan & Billing
-  plan: 'free' | 'premium';
-  subscription_status: 'active' | 'canceled' | 'past_due' | 'inactive' | 'trialing' | 'incomplete' | 'incomplete_expired' | 'unpaid' | 'paused';
-  current_period_start?: Date;
-  current_period_end?: Date;
-  stripe_customer_id?: string;
-  stripe_subscription_id?: string;
+  plan: 'FREE' | 'PREMIUM';
+  subscriptionStatus?: 'ACTIVE' | 'CANCELED' | 'PAST_DUE' | 'INACTIVE' | 'TRIALING' | 'INCOMPLETE' | 'INCOMPLETE_EXPIRED' | 'UNPAID' | 'PAUSED';
+  currentPeriodStart?: Date;
+  currentPeriodEnd?: Date;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
 
   // Usage Tracking & Billing
-  cdn_usage_current_period?: number; // GB used in current billing period
-  ai_requests_current_period?: number; // AI requests used in current billing period
-  usage_billing_enabled?: boolean; // Whether to charge for overages
-  usage_billing_updated_at?: Date;
+  cdnUsageCurrentPeriod?: number; // GB used in current billing period
+  aiRequestsCurrentPeriod?: number; // AI requests used in current billing period
+  usageBillingEnabled?: boolean; // Whether to charge for overages
+  usageBillingUpdatedAt?: Date;
 
   // Migration Settings
   migrationFileSizeLimit?: number; // Custom migration file size limit in bytes (optional, defaults to 5GB)
 
   // Custom Domain
-  customDomain_override?: string;
-  customDomain_status?: 'pending' | 'active' | 'error' | 'verifying';
-  customDomain_lastChecked?: Date;
-  customDomain_error?: string;
-  customDomain_cloudflareId?: string;
+  customDomainOverride?: string;
+  customDomainStatus?: 'PENDING' | 'ACTIVE' | 'ERROR' | 'VERIFYING';
+  customDomainLastChecked?: Date;
+  customDomainError?: string;
+  customDomainCloudflareId?: string;
   
   // Analytics/Stats from modl-admin
   userCount: number;
@@ -63,32 +63,32 @@ export const ModlServerSchema = new Schema<IModlServer>({
   emailVerified: { type: Boolean, default: false, index: true },
   emailVerificationToken: { type: String, unique: true, sparse: true },
   
-  provisioningStatus: { type: String, enum: ['pending', 'in-progress', 'completed', 'failed'], default: 'pending', index: true },
+  provisioningStatus: { type: String, enum: ['PENDING', 'IN_PROGRESS', 'COMPLETED', 'FAILED'], default: 'PENDING', index: true },
   provisioningNotes: { type: String },
   provisioningSignInToken: { type: String, unique: true, sparse: true },
   provisioningSignInTokenExpiresAt: { type: Date },
 
-  plan: { type: String, enum: ['free', 'premium'], default: 'free', index: true },
-  subscription_status: { type: String, enum: ['active', 'canceled', 'past_due', 'inactive', 'trialing', 'incomplete', 'incomplete_expired', 'unpaid', 'paused'], default: 'inactive', index: true },
-  current_period_start: { type: Date, sparse: true },
-  current_period_end: { type: Date, sparse: true },
-  stripe_customer_id: { type: String, unique: true, sparse: true },
-  stripe_subscription_id: { type: String, unique: true, sparse: true },
+  plan: { type: String, enum: ['FREE', 'PREMIUM'], default: 'FREE', index: true },
+  subscriptionStatus: { type: String, enum: ['ACTIVE', 'CANCELED', 'PAST_DUE', 'INACTIVE', 'TRIALING', 'INCOMPLETE', 'INCOMPLETE_EXPIRED', 'UNPAID', 'PAUSED'], default: 'INACTIVE', index: true },
+  currentPeriodStart: { type: Date, sparse: true },
+  currentPeriodEnd: { type: Date, sparse: true },
+  stripeCustomerId: { type: String, unique: true, sparse: true },
+  stripeSubscriptionId: { type: String, unique: true, sparse: true },
 
   // Usage Tracking & Billing
-  cdn_usage_current_period: { type: Number, default: 0 },
-  ai_requests_current_period: { type: Number, default: 0 },
-  usage_billing_enabled: { type: Boolean, default: false },
-  usage_billing_updated_at: { type: Date, sparse: true },
+  cdnUsageCurrentPeriod: { type: Number, default: 0 },
+  aiRequestsCurrentPeriod: { type: Number, default: 0 },
+  usageBillingEnabled: { type: Boolean, default: false },
+  usageBillingUpdatedAt: { type: Date, sparse: true },
   
   // Migration Settings
   migrationFileSizeLimit: { type: Number, sparse: true },
   
-  customDomain_override: { type: String, unique: true, sparse: true },
-  customDomain_status: { type: String, enum: ['pending', 'active', 'error', 'verifying'], sparse: true },
-  customDomain_lastChecked: { type: Date, sparse: true },
-  customDomain_error: { type: String, sparse: true },
-  customDomain_cloudflareId: { type: String, unique: true, sparse: true },
+  customDomainOverride: { type: String, unique: true, sparse: true },
+  customDomainStatus: { type: String, enum: ['PENDING', 'ACTIVE', 'ERROR', 'VERIFYING'], sparse: true },
+  customDomainLastChecked: { type: Date, sparse: true },
+  customDomainError: { type: String, sparse: true },
+  customDomainCloudflareId: { type: String, unique: true, sparse: true },
   
   userCount: { type: Number, default: 0 },
   ticketCount: { type: Number, default: 0 },
@@ -104,7 +104,7 @@ export const ModlServerSchema = new Schema<IModlServer>({
 
 // Indexes for common queries
 ModlServerSchema.index({ adminEmail: 1 });
-ModlServerSchema.index({ plan: 1, subscription_status: 1 });
+ModlServerSchema.index({ plan: 1, subscriptionStatus: 1 });
 ModlServerSchema.index({ provisioningStatus: 1, emailVerified: 1 });
 ModlServerSchema.index({ serverName: 'text', customDomain: 'text', adminEmail: 'text' });
 

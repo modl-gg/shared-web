@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Types, Int32 } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import slugify from 'slugify';
 
 // Player Schemas
@@ -131,11 +131,10 @@ export const StaffSchema = new Schema({
 }, { timestamps: true });
 
 export const InvitationSchema = new Schema({
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   role: { type: String, required: true }, // Removed enum to allow custom roles - validation handled in application logic
   token: { type: String, required: true, unique: true },
   expiresAt: { type: Date, required: true },
-  status: { type: String, enum: ['pending', 'accepted'], default: 'pending' },
 }, { timestamps: true });
 
 
@@ -164,8 +163,8 @@ export const TicketSchema = new Schema({
   status: { type: String, required: true, enum: ['Unfinished', 'Open', 'Closed', 'Under Review', 'Pending Player Response', 'Resolved'], default: 'Unfinished' },
   subject: { type: String, default: '' },
   created: { type: Date, default: Date.now },
-  creator: { type: String, required: true },
-  creatorUuid: { type: String, required: true },
+  creatorName: { type: String, required: true },
+  creatorUuid: { type: String },
   reportedPlayer: { type: String },
   reportedPlayerUuid: { type: String },
   chatMessages: [{ type: String }],
@@ -215,11 +214,10 @@ export const KnowledgebaseArticleSchema = new Schema({
     title: { type: String, required: true, trim: true },
     slug: { type: String, unique: true, index: true },
     content: { type: String, required: true },
-    category: { type: Schema.Types.ObjectId, ref: 'KnowledgebaseCategory', required: true },
-    author: { type: Schema.Types.ObjectId, ref: 'User' },
-    is_visible: { type: Boolean, default: true },
+    categoryId: { type: String, required: true, index: true },
+    isVisible: { type: Boolean, default: true },
     ordinal: { type: Number, default: 0 },
-  }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  }, { timestamps: true }
 );
 
 KnowledgebaseArticleSchema.pre('save', function (next) {
@@ -234,8 +232,9 @@ export const KnowledgebaseCategorySchema = new Schema({
     slug: { type: String, unique: true, index: true },
     description: { type: String, trim: true },
     ordinal: { type: Number, default: 0 },
+    isVisible: { type: Boolean, default: true },
   }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
@@ -251,7 +250,7 @@ KnowledgebaseCategorySchema.pre('save', function (next) {
 KnowledgebaseCategorySchema.virtual('articles', {
   ref: 'KnowledgebaseArticle',
   localField: '_id',
-  foreignField: 'category',
+  foreignField: 'categoryId',
   justOne: false,
   options: { sort: { ordinal: 1 } }
 });
@@ -262,34 +261,34 @@ export const HomepageCardSchema = new Schema({
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
     icon: { type: String, required: true, trim: true },
-    icon_color: { type: String, trim: true },
-    action_type: { type: String, required: true, enum: ['url', 'category_dropdown'], default: 'url' },
-    action_url: { type: String, trim: true,
+    iconColor: { type: String, trim: true },
+    actionType: { type: String, required: true, enum: ['url', 'category_dropdown'], default: 'url' },
+    actionUrl: { type: String, trim: true,
       validate: {
         validator: function(this: any, v: string) {
-          return this.action_type !== 'url' || Boolean(v && v.length > 0);
+          return this.actionType !== 'url' || Boolean(v && v.length > 0);
         },
         message: 'URL is required when action type is URL'
       }
     },
-    action_button_text: { type: String, trim: true,
+    actionButtonText: { type: String, trim: true,
       default: function(this: any) {
-        return this.action_type === 'url' ? 'Learn More' : undefined;
+        return this.actionType === 'url' ? 'Learn More' : undefined;
       }
     },
-    category_id: { type: Schema.Types.ObjectId, ref: 'KnowledgebaseCategory',
+    categoryId: { type: String,
       validate: {
-        validator: function(this: any, v: Types.ObjectId) {
-          return this.action_type !== 'category_dropdown' || Boolean(v);
+        validator: function(this: any, v: string) {
+          return this.actionType !== 'category_dropdown' || Boolean(v);
         },
         message: 'Category is required when action type is category dropdown'
       }
     },
-    background_color: { type: String, trim: true },
-    is_enabled: { type: Boolean, default: true },
+    backgroundColor: { type: String, trim: true },
+    isEnabled: { type: Boolean, default: true },
     ordinal: { type: Number, default: 0 },
   }, { 
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
@@ -297,7 +296,7 @@ export const HomepageCardSchema = new Schema({
 
 HomepageCardSchema.virtual('category', {
   ref: 'KnowledgebaseCategory',
-  localField: 'category_id',
+  localField: 'categoryId',
   foreignField: '_id',
   justOne: true
 }); 
