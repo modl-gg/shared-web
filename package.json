@@ -69,7 +69,7 @@
   },
   "homepage": "https://github.com/modl-gg/shared-web",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://nexus.modl.gg/repository/npm-releases/"
   },
   "keywords": [
     "modl",
